@@ -1,6 +1,8 @@
 var todolist = []; //存放待辦清單
 var id = 1; //待辦項目ID
 
+
+//新增待辦項目
 function addList() {
     var _title = $("#title").val();
     var _message = $("#message").val();
@@ -23,7 +25,7 @@ function addList() {
         $("#message").val(""); //清空內容
     }
 }
-
+//將待辦項目顯示到頁面上
 function newList(data) {
     var status = (data.status) ? "checked" : "";
     var titleClass = (data.status) ? "title2" : "title";
@@ -45,9 +47,9 @@ function newList(data) {
         </div>`;
     $(".col-lg-8").append(content);
 }
-
+//修改待辦項目
 function editList(id) {
-    $('#edit' + id).css("display", "none"); 
+    $('#edit' + id).css("display", "none");
     $('#update' + id).css("display", "inline");
 
     var input = document.createElement("input");
