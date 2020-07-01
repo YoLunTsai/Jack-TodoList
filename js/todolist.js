@@ -25,6 +25,7 @@ function addList() {
         $("#message").val(""); //清空內容
     }
 }
+
 //將待辦項目顯示到頁面上
 function newList(data) {
     //使用newtodo的status來判斷是否為已勾選狀態，給予不同的class類別樣式
@@ -48,6 +49,7 @@ function newList(data) {
         </div>`;
     $(".col-lg-8").append(content);
 }
+
 //修改待辦項目
 function editList(id) {
     $('#edit' + id).css("display", "none"); //將修改按鈕隱藏
@@ -69,6 +71,7 @@ function editList(id) {
     $('#message' + id).css("display", "none"); //將原本的內容隱藏
     $('#message' + id).parent().append(message_input); //將內容修改文字框加入到原本的位置
 }
+
 //修改完後保存待辦項目
 function updateList(id) {
     var title = $("#edit_title" + id).val(); //標題修改文字框的值
@@ -77,6 +80,8 @@ function updateList(id) {
     $("#title" + id).text(title); //將修改後的值，重新給予原本的標題
     $("#message" + id).text(message); //將修改後的值，重新給予原本的內容
 
+    todolist[id - 1].title = title; //更改todolist陣列中該筆待辦項目物件的title屬性值為修改後的標題
+    todolist[id - 1].content = message; //更改todolist陣列中該筆待辦項目物件的content屬性值為修改後的內容
 
     $("#edit" + id).css("display", "inline"); //將修改按鈕設為顯示
     $("#update" + id).css("display", "none"); //將確認按鈕設為隱藏
@@ -87,10 +92,33 @@ function updateList(id) {
     $("#edit_title" + id).remove(); //將標題修改文字框刪除
     $("#edit_message" + id).remove(); //將內容修改文字框刪除
 }
+
 //刪除待辦項目
 function removeList(id) { //參數id代表newtodo的._id
-    var index = todolist.findIndex(element => element._id == id); //參數element代表todolist陣列中的每個待辦項目物件，當待辦項目物件的._id屬性與要刪除的待辦項目的.id屬性相同時，回傳該筆待辦項目物件的索引值(index)
+    var index = todolist.findIndex(element => element._id == id); //參數element代表todolist陣列中的每個待辦項目物件，此方法會把每一個待辦清單項目物件拿出來進行比對，當待辦項目物件的._id屬性值與要刪除的待辦項目的.id屬性值相同時，回傳該筆待辦項目物件的索引值(index)
     todolist.splice(index, 1); //然後從陣列中刪除它
     $("#" + id).remove(); //並把該待辦項目區塊從頁面上移除
 }
+
 //改變待辦項目狀態
+function changeStatus(id, btnstatus) { //id為勾選的待辦項目索引值 btnstatus為當下待辦項目本身(this)
+    var title = btnstatus.parentNode; //input的父元素節點，也就是title區塊
+    var message = title.nextElementSibling; //title區塊的下一個兄弟元素節點，也就是message區塊
+    if (btnstatus.checked) { //若input為勾選狀態
+        title.className = "title2";
+        message.className = "message2";
+        $("#edit" + id).css("display", "none"); //隱藏修改按鈕
+        $("#update" + id).css("display", "none"); //隱藏確認按鈕
+
+        if (document.getElementById("edit_title" + id)) { //如果修改文字輸入框存在時
+            $("#title" + id).css("display", "inline"); //將標題區塊顯示出來，因為若修改文字輸入框存在時，它是隱藏的狀態
+            $("#message" + id).css("display", "inline"); //將內容區塊顯示出來
+            $("#edit_title" + id).remove(); //刪除標題文字輸入框
+            $("#edit_message" + id).remove(); //刪除內容文字輸入框
+        }
+    } else { //若input為未勾選狀態
+        title.className = "title";
+        message.className = "message";
+        $("#edit" + id).css("display", "inline"); //將修改按鈕顯示
+    }
+}

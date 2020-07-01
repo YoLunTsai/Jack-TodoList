@@ -15,11 +15,13 @@
 
 <body>
     <div class="container-fluid">
-        <header>Jack's TodoList</header>
+        <header>
+            <img src="./images/TodoList.png" class="icon">Jack's TodoList
+        </header>
         <div class="row no-gutters">
             <div class="col-lg-4 p-4">
-                <div style="margin-bottom:2rem">待辦事項 - 標題：<input type="text" id="title" name="title"></div>
-                <div>待辦事項 - 內容：<input type="text" id="message" name="message"></div>
+                <div id="first_input" class="p-2">待辦事項 | 標題：<input type="text" id="title" name="title"></div>
+                <div class="p-2">待辦事項 | 內容：<input type="text" id="message" name="message"></div>
                 <button type="button" onclick="addList()">確認</button>
             </div>
             <div class="col-lg-8 p-4"></div>
