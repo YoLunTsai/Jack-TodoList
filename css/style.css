@@ -170,19 +170,19 @@ footer {
     }
 
     .col-lg-4 button {
-        width: 60px;
+        width: 75px;
         height: 30px;
         border-radius: 10px;
-        font-size: 14px;
+        font-size: 1rem;
         margin-top: 0.5rem;
     }
 
     .content button {
-        width: 40px;
+        width: 55px;
         height: 25px;
         border-radius: 10px;
         color: white;
-        font-size: 10px;
+        font-size: 0.8rem;
         margin-left: 5px;
     }
 }
