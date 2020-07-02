@@ -7,7 +7,7 @@ function addList() {
     var _title = $("#title").val();
     var _message = $("#message").val();
 
-    if (_title == "" || _message == "") { //且
+    if (_title == "" || _message == "") { //OR
         $("#title").attr("placeholder", "請輸入標題！");
         $("#message").attr("placeholder", "請輸入內容！");
     } else {
