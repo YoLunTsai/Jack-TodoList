@@ -1,5 +1,6 @@
 var todolist = []; //存放待辦清單
 var id = 1; //待辦項目ID
+var order = 2; //元素順序，為了讓元素能夠置頂(order=1)，所以初始值為2(小於1)，
 
 
 //新增待辦項目
@@ -13,6 +14,7 @@ function addList() {
     } else {
         var newtodo = {
             '_id': id,
+            '_order': order,
             'title': _title,
             'content': _message,
             'status': false
@@ -20,6 +22,7 @@ function addList() {
         todolist.push(newtodo); //將newtodo物件新增至togolist陣列最後方
         newList(newtodo); //並將newtodo物件傳入newList函式中
         id++;
+        order++;
 
         $("#title").val(""); //清空標題
         $("#message").val(""); //清空內容
@@ -35,15 +38,16 @@ function newList(data) {
     var editClass = (data.status) ? "none" : "inline"; //依newtodo的status狀態，判斷修改按鈕是否隱藏或顯示
 
     var content = //使用ES6文字模板，${}可放置變數
-        `<div class="content "id="${data._id}">
-            <div class="${titleClass}">
+        `<div class="content" id="${data._id}" style="order:${data._order};">
+            <div class="${titleClass}" id="top${data._id}">
                 <input type="checkbox" onclick="changeStatus( '${data._id}', this)" />
                 <text id="title${data._id}">${data.title}</text>
                 <button onclick="removeList('${data._id}')">刪除</button>
                 <button id="edit${data._id}" style="display:${editClass}" onclick="editList('${data._id}')">修改</button>
                 <button id="update${data._id}" style="display:none" onclick="updateList('${data._id}')">確認</button>
+                <button id="goTop${data._id}" style="display:${editClass}" onclick="gotop('${data._id}')">置頂</button>
             </div>
-            <div class="${messageClass}">
+            <div class="${messageClass}" id="down${data._id}">
             <text id="message${data._id}">${data.content}</text>
             </div>
         </div>`;
@@ -109,6 +113,7 @@ function changeStatus(id, btnstatus) { //id為勾選的待辦項目索引值 btn
         message.className = "message2";
         $("#edit" + id).css("display", "none"); //隱藏修改按鈕
         $("#update" + id).css("display", "none"); //隱藏確認按鈕
+        $("#goTop" + id).css("display", "none"); //將置頂按鈕隱藏
 
         if (document.getElementById("edit_title" + id)) { //如果修改文字輸入框存在時
             $("#title" + id).css("display", "inline"); //將標題區塊顯示出來，因為若修改文字輸入框存在時，它是隱藏的狀態
@@ -120,5 +125,21 @@ function changeStatus(id, btnstatus) { //id為勾選的待辦項目索引值 btn
         title.className = "title";
         message.className = "message";
         $("#edit" + id).css("display", "inline"); //將修改按鈕顯示
+        $("#goTop" + id).css("display", "inline"); //將置頂按鈕顯示
     }
+}
+
+//代辦項目置頂
+function gotop(id) {
+    document.getElementById(id).style.order = 1; //將元素的order屬性設為1，讓順序跑到第一個
+    $("#goTop" + id).remove(); //將置頂按鈕刪除
+
+    $('#top' + id).css({
+        "background-color": "#F87575",
+        "color": "white"
+    });
+    $('#down' + id).css({
+        "background-color": "#FFA9A3",
+        "color": "white"
+    });
 }
